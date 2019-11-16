@@ -1,0 +1,69 @@
+settings:
+  description: Heart Count
+  verbosity: 3
+  log_verbosity: 0
+  db_path: trump.db
+  user_agent: "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:64.0) Gecko/20100101 Firefox/64.0"
+
+conf:
+  crawler:
+    type: core
+    module: core_crawler
+    class: CoreCrawler
+    settings:
+      domain: twitter.com
+      error_max: 5
+      https: True
+      crawler:
+        req_method: selenium
+        browser_settings:
+          headless: True 
+          disable_javascript: False
+        req_delay:
+          method: static
+          time: 15 
+      load_uncrawled: False
+      save_uncrawled: False
+      links:
+        initial_urls:
+          internal:
+            - "https://twitter.com/realdonaldtrump"
+        exclude_str:
+          - "#"
+          - "%"
+          - "mailto:"
+        exclude_type:
+          - external
+          - file
+        max_links:
+          internal: 1
+          external: 1
+          file: 1
+          total: 1
+    selenium_plugins:
+        # ScrollTwitter
+  plugins:
+      #ScrollTwitter:
+      #type: user
+      #module: scroll_twitter
+      #settings:
+      #  selectors:
+      #    - '.tweet-timestamp js-permalink js-nav js-tooltip'
+    HeartCount:
+      type: user
+      module: hearts
+      class: HeartCount 
+      settings:
+        selectors:
+            #- '.ProfileTweet-action--favorite'
+            #- '.ProfileTweet-action--reply'  
+            #- '.ProfileTweet-action--retweet'  
+            #- '.tweet-timestamp.js-permalink.js-nav.js-tooltip span._timestamp.js-short-timestamp.js-relative-timestamp'
+            #- 'div.tweet.js-stream-tweet.js-actionable-tweet.js-profile-popup-actionable.dismissible-content.original-tweet.js-original-tweet.tweet-has-context.has-cards.cards-forward'
+            # - 'button.ProfileTweet-actionButton.js-actionButton.js-actionReply .ProfileTweet-actionCount'
+            # - 'button.ProfileTweet-actionButton.js-actionButton.js-actionRetweet .ProfileTweet-actionCount'
+            # - 'button.ProfileTweet-actionButton.js-actionButton.js-actionFavorite .ProfileTweet-actionCount'
+            #- '.ProfileTweet-actionCount'   
+
+            - 'span'
+            # - 'ProfileTweet-actionCount'
